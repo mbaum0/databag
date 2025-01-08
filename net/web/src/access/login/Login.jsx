@@ -33,7 +33,7 @@ console.log(state.mfaError);
     <LoginWrapper>
       { modalContext }
       <div className="app-title">
-        <span>Databag</span>
+        <span>PintoChat</span>
         <div className="settings" onClick={() => actions.onSettings()}>
           <SettingOutlined />
         </div>

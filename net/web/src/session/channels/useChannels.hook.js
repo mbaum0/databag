@@ -185,6 +185,7 @@ export function useChannels() {
   useEffect(() => {
     const login = store.state['login:timestamp'];
     const conversations = new Map();
+    let cardHasUpdate = false;
     card.state.cards.forEach((cardValue, cardId) => {
       cardValue.channels.forEach((channelValue, channelId) => {
         const key = `${channelId}::${cardId}`;
@@ -200,6 +201,7 @@ export function useChannels() {
         const topicRevision = channelValue.data?.topicRevision;
         if (login && item.updated && item.updated > login && topicRevision !== revision) {
           item.updatedFlag = true;
+          cardHasUpdate = true;
         }
         else {
           item.updatedFlag = false;
@@ -220,6 +222,7 @@ export function useChannels() {
       const topicRevision = channelValue.data?.topicRevision;
       if (login && item.updated && item.updated > login && topicRevision !== revision) {
         item.updatedFlag = true;
+        cardHasUpdate = true;
       }
       else {
         item.updatedFlag = false;
@@ -227,6 +230,7 @@ export function useChannels() {
       conversations.set(key, item);
     });
     channels.current = conversations;
+    setFavicon(cardHasUpdate)
 
     const merged = Array.from(conversations.values());
     merged.sort((a, b) => {
@@ -284,3 +288,20 @@ export function useChannels() {
 
   return { state, actions };
 }
+
+const setFavicon = (hasUnread) => {
+  let favicon = document.querySelector("link[rel~='icon']");
+  if (!favicon) {
+    favicon = document.createElement("link");
+    favicon.rel = "icon";
+    document.head.appendChild(favicon);
+  }
+
+  favicon.href = hasUnread ? '/favicon-unread.ico' : '/favicon.ico';
+
+  if (hasUnread) {
+    console.log("Setting unread");
+  } else {
+    console.log("Setting read");
+  }
+};

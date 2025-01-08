@@ -31,7 +31,7 @@ export  function CreateAccount() {
     <CreateAccountWrapper>
       { modalContext }
       <div className="app-title">
-        <span>Databag</span>
+        <span>PintoChat</span>
         <div className="settings" onClick={() => actions.onSettings()}>
           <SettingOutlined />
         </div>
